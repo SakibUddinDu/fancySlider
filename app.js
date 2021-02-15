@@ -11,10 +11,12 @@ let sliders = [];
 // If this key doesn't work
 // Find the name in the url and go to their website
 // to create your own api key
-const KEY = '15674931-a9d714b6e9d654524df198e00&q';
+// const KEY = '15674931-a9d714b6e9d654524df198e00&q';
+const KEY = '20277107-0f00ed08d90f8b8a86e38610a&q';
 
 // show images 
 const showImages = (images) => {
+  // console.log(images)
   imagesArea.style.display = 'block';
   gallery.innerHTML = '';
   // show gallery title
@@ -31,7 +33,8 @@ const showImages = (images) => {
 const getImages = (query) => {
   fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
     .then(response => response.json())
-    .then(data => showImages(data.hitS))
+    .then(data => showImages(data.hits))     //1)hitS
+    // .then(data => console.log(data) )
     .catch(err => console.log(err))
 }
 

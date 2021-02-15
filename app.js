@@ -5,15 +5,24 @@ const searchBtn = document.getElementById('search-btn');
 const sliderBtn = document.getElementById('create-slider');
 const sliderContainer = document.getElementById('sliders');
  const searchEnter =document.getElementById("search");
+
 // selected image 
 let sliders = [];
-
 
 // If this key doesn't work
 // Find the name in the url and go to their website
 // to create your own api key
 // const KEY = '15674931-a9d714b6e9d654524df198e00&q';
+//getImage
 const KEY = '20277107-0f00ed08d90f8b8a86e38610a&q';
+const getImages = (query) => {
+  toggleSpinner();
+  fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
+    .then(response => response.json())
+    .then(data => showImages(data.hits))     //1)hitS
+    // .then(data => console.log(data) )
+    .catch(err => console.log(err))
+    }
 
 // show images 
 const showImages = (images) => {
@@ -26,18 +35,13 @@ const showImages = (images) => {
     let div = document.createElement('div');
     div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
-    gallery.appendChild(div)
+    gallery.appendChild(div);
+    
+    // toggleSpinner();// load hotei thake ......
   })
-
+  toggleSpinner();
 }
 
-const getImages = (query) => {
-  fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
-    .then(response => response.json())
-    .then(data => showImages(data.hits))     //1)hitS
-    // .then(data => console.log(data) )
-    .catch(err => console.log(err))
-}
 
 let slideIndex = 0;
 const selectItem = (event, img) => {
@@ -47,8 +51,11 @@ const selectItem = (event, img) => {
   let item = sliders.indexOf(img);
   if (item === -1) {
     sliders.push(img);
+    element.classList.toggle('added');
   } else {
-    alert('Hey, Already added !')
+    let deSelect = item;
+    sliders.splice(deSelect, 1);
+    element.classList.toggle('added');
   }
 }
 var timer
@@ -89,9 +96,8 @@ const createSlider = () => {
     }, duration);
   }
   else{
-    alert("This is Not So Appropiate Duration")
+    alert("This is Not So Appropriate Duration.Duration Should be minimum 500 ")
   }
- 
 }
 
 // change slider index 
@@ -130,5 +136,11 @@ searchEnter.addEventListener("search", searchItems)
 searchBtn.addEventListener('click', searchItems)
 
 sliderBtn.addEventListener('click', function () {
-  createSlider()
+  createSlider();
 })
+
+//spinner
+const toggleSpinner = () =>{
+  const loadingSpinner = document.getElementById('spinner');
+  loadingSpinner.classList.toggle('d-none')
+}

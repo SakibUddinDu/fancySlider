@@ -12,23 +12,21 @@ let sliders = [];
 // If this key doesn't work
 // Find the name in the url and go to their website
 // to create your own api key
-// const KEY = '15674931-a9d714b6e9d654524df198e00&q';
 //getImage
 const KEY = '20277107-0f00ed08d90f8b8a86e38610a&q';
 const getImages = (query) => {
   toggleSpinner();
   fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
     .then(response => response.json())
-    .then(data => showImages(data.hits))     //1)hitS
-    // .then(data => console.log(data) )
+    .then(data => showImages(data.hits))   
     .catch(err => console.log(err))
     }
 
 // show images 
 const showImages = (images) => {
-  // console.log(images)
   imagesArea.style.display = 'block';
   gallery.innerHTML = '';
+
   // show gallery title
   galleryHeader.style.display = 'flex';
   images.forEach(image => {
@@ -36,7 +34,7 @@ const showImages = (images) => {
     div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}"> ;`;
     gallery.appendChild(div);
-    // toggleSpinner();// load hotei thake ......
+    // toggleSpinner();
   })
   toggleSpinner();
 }
@@ -58,7 +56,6 @@ const selectItem = (event, img) => {
     element.classList.toggle('added');
   }
   let selectedSlider =sliders.length ;
-  // console.log(selectedSlider);
   sliderCount.innerText=selectedSlider;
 }
 // let sliderCount =
@@ -66,7 +63,6 @@ var timer
 const createSlider = () => {
   // check slider image length
   if (sliders.length < 2) {
-    // bootbox.alert("Your message here…")
     alert('Select at least 2 image.')
     return;
   }
@@ -84,7 +80,6 @@ const createSlider = () => {
   // hide image aria
   imagesArea.style.display = 'none';
   const duration = document.getElementById('duration').value || 1000;
-  // 3rd requirments
   if (duration>=500) {
     sliders.forEach(slide => {
       let item = document.createElement('div')

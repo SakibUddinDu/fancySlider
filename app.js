@@ -4,8 +4,8 @@ const galleryHeader = document.querySelector('.gallery-header');
 const searchBtn = document.getElementById('search-btn');
 const sliderBtn = document.getElementById('create-slider');
 const sliderContainer = document.getElementById('sliders');
- const searchEnter =document.getElementById("search");
-
+const searchEnter =document.getElementById("search");
+let sliderCount = document.getElementById("slider-count");
 // selected image 
 let sliders = [];
 
@@ -34,9 +34,8 @@ const showImages = (images) => {
   images.forEach(image => {
     let div = document.createElement('div');
     div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
-    div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
+    div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}"> ;`;
     gallery.appendChild(div);
-    
     // toggleSpinner();// load hotei thake ......
   })
   toggleSpinner();
@@ -52,16 +51,22 @@ const selectItem = (event, img) => {
   if (item === -1) {
     sliders.push(img);
     element.classList.toggle('added');
+   
   } else {
     let deSelect = item;
     sliders.splice(deSelect, 1);
     element.classList.toggle('added');
   }
+  let selectedSlider =sliders.length ;
+  // console.log(selectedSlider);
+  sliderCount.innerText=selectedSlider;
 }
+// let sliderCount =
 var timer
 const createSlider = () => {
   // check slider image length
   if (sliders.length < 2) {
+    // bootbox.alert("Your message here…")
     alert('Select at least 2 image.')
     return;
   }
